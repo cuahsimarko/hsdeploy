@@ -23,9 +23,9 @@ services:
   redis:
     image: redis:2.8
     container_name: redis
-  rabbitmq:
-    image: rabbitmq:3.5
-    container_name: rabbitmq
+#  rabbitmq:
+#    image: rabbitmq:3.5
+#    container_name: rabbitmq
   solr:
     image: solr:6.6
     container_name: solr
@@ -47,7 +47,7 @@ services:
       - postgis
 #      - irods
       - redis
-      - rabbitmq
+#      - rabbitmq
       - solr
     environment:
       POSTGIS_HOST: postgis
@@ -83,7 +83,7 @@ services:
     links:
       - postgis:postgis
       - redis:redis
-      - rabbitmq:rabbitmq
+#      - rabbitmq:rabbitmq
       - solr:solr
     # the following two lines allow docker exec -it <container name> /bin/bash to attach to container
     stdin_open: true
