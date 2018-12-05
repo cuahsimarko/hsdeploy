@@ -1,0 +1,8 @@
+FROM centos:7
+RUN yum -y update; yum clean all;
+RUN rpm --import https://packages.irods.org/irods-signing-key.asc
+RUN yum install -y wget
+RUN wget -qO - https://packages.irods.org/renci-irods.yum.repo | tee /etc/yum.repos.d/renci-irods.yum.repo
+RUN yum install -y epel-release
+RUN yum install -y irods-server irods-database-plugin-postgres
+CMD ["/bin/bash"]
