@@ -17,14 +17,5 @@ RUN mkdir /shared_tmp
 RUN chown -R hydro-service:storage-hydro /etc/ssh
 RUN chown -R hydro-service:storage-hydro /hs_tmp
 RUN chown -R hydro-service:storage-hydro /shared_tmp
-#RUN sed -i "/\<UsePrivilegeSeparation\>/c\UsePrivilegeSeparation no" /etc/ssh/sshd_config
-#RUN sed -i "/\<Port 22\>/c\Port 2022" /etc/ssh/sshd_config
-#
-##HS_SSH_SERVER
-##HS_DJANGO_SERVER
-#
-#RUN 'runuser -p -u hydro-service -g storage-hydro /usr/sbin/sshd'
-#RUN 'runuser -p -u hydro-service -g storage-hydro ./run-server'
 
-#CMD ["runuser -p -u hydro-service -g storage-hydro ./run-server"]
 CMD ["runuser", "-p", "-u", "hydro-service", "-g", "storage-hydro", "python", "manage.py", "runserver", "0.0.0.0:8000"]
