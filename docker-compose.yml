@@ -1,5 +1,4 @@
 version: '3'
-# TODO consider setting hostnames to have lcl prefix
 services:
 #  irods:
 #    build:
@@ -16,16 +15,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-postgis
-    container_name: postgis
+    container_name: postgis1
     hostname: postgis
+    ports:
+      - "54322:5432"
     volumes:
       - ./.pgdata:/var/lib/postgresql/data
   redis:
     image: redis:2.8
     container_name: redis
-#  rabbitmq:
-#    image: rabbitmq:3.5
-#    container_name: rabbitmq
   solr:
     image: solr:6.6
     container_name: solr
@@ -42,12 +40,10 @@ services:
     devices:
       - "/dev/fuse"
     privileged: true
-    # used to have a sleep 3 will need to tie the dependency to deeper service check on postgis for now seems to be ok
     depends_on:
       - postgis
 #      - irods
       - redis
-#      - rabbitmq
       - solr
     environment:
       LOGDIR: /tmp
@@ -65,9 +61,7 @@ services:
       PGPASSWORD: postgres
       SOLR_HOST: solr
       TMP: /hs_tmp
-#      HOST_SSL_DIR: /Users/mobrien/hydro/hs-certs
       HS_DATABASE: pg.development.sql
-#      HS_LOG_FILES: /Users/mobrien/hydro/hydroshare/log
       HS_SERVICE_UID: 1000
       HS_SERVICE_GID: 1000
     volumes:
@@ -87,9 +81,7 @@ services:
     links:
       - postgis:postgis
       - redis:redis
-#      - rabbitmq:rabbitmq
       - solr:solr
-    # the following two lines allow docker exec -it <container name> /bin/bash to attach to container
     stdin_open: true
     tty: true
 #  defaultworker:
