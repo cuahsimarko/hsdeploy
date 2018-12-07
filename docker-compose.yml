@@ -50,6 +50,10 @@ services:
 #      - rabbitmq
       - solr
     environment:
+      LOGDIR: /tmp
+      PYTHONPATH: /hydroshare
+      TMPDIR: /tmp
+      DJANGO_SETTINGS_MODULE: hydroshare.settings
       POSTGIS_HOST: postgis
       POSTGIS_PORT_5432_TCP_ADDR: postgis
       POSTGIS_PORT: 5432
