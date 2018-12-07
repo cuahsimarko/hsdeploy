@@ -7,7 +7,7 @@ RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355
 USER root
 WORKDIR /hydroshare
 
-ADD hydroshare.conf /etc/supervisor/conf.d/hydroshare.conf
+#ADD hydroshare.conf /etc/supervisor/conf.d/hydroshare.conf
 # TODO PARAMETERIZE
 RUN usermod -u 1000 hydro-service
 # TODO PARAMETERIZE
