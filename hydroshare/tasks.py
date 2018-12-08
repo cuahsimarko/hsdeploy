@@ -4,7 +4,7 @@
 #
 # from celery import Celery
 # from django.conf import settings
-#
+# Do not name file celery.py
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hydroshare.settings')
 # os.environ.setdefault('PYTHONPATH', '/hydroshare/hydroshare')
 #
