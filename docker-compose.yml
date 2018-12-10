@@ -44,7 +44,7 @@ services:
     cap_add:
       - SYS_ADMIN
 #    volumes:
-#      - ./.solrdata:/opt/solr/server/solr/collection1
+#      - ./.solrdata/index:/opt/solr/server/solr/collection1
 #    entrypoint:
 #      - docker-entrypoint.sh
 #      - solr-precreate
