@@ -18,22 +18,15 @@ env-files/rods@*
 #/nginx/htpasswd
 
 
-/nginx/Dockerfile
-/nginx/config-files/hs-nginx.conf
-/nginx/config-files/nginx.conf-default
 /static
 /tmp
 celeryd.pid
 init-defaultworker
 init-dockerworker
 init-hydroshare
-run-server
-schema.xml
 *.sublime-*
 .pycharm_helpers
 celerybeat.pid
-.config
-.c9
 
 # TODO this was ignored reignore it after discussing
 #/nginx/cert*

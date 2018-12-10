@@ -1,0 +1,39 @@
+FROM solr:6.6
+
+#WORKDIR /opt/solr/bin
+
+
+#    echo "  - docker exec hydroshare python manage.py build_solr_schema -f schema.xml"
+#    docker exec hydroshare python manage.py build_solr_schema -f schema.xml
+#    sleep 1s
+#    echo "  - docker exec solr cp /hydroshare/schema.xml /opt/solr/example/solr/collection1/conf/schema.xml"
+#    docker exec solr cp /hydroshare/schema.xml /opt/solr/server/solr/collection1/conf/schema.xml
+#    echo "  - docker exec solr sed -i '/<schemaFactory class=\"ManagedIndexSchemaFactory\">/,+4d' /opt/solr/server/solr/collection1/conf/solrconfig.xml"
+#    docker exec solr sed -i '/<schemaFactory class="ManagedIndexSchemaFactory">/,+4d' /opt/solr/server/solr/collection1/conf/solrconfig.xml
+#    echo "  - docker exec solr rm /opt/solr/server/solr/collection1/conf/managed-schema"
+#    docker exec solr rm /opt/solr/server/solr/collection1/conf/managed-schema
+#
+#}
+#
+#
+# /opt/solr/server/solr/collection1/conf/solrconfig.xml
+#solr create -c
+
+USER $SOLR_USER
+
+#RUN groupadd -r --gid $SOLR_GID $SOLR_GROUP && \
+#  useradd -r --uid $SOLR_UID --gid $SOLR_GID $SOLR_USER
+
+RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/solr
+
+RUN ["mkdir", "/opt/solr/server/solr/collection1"]
+RUN ["mkdir", "/opt/solr/server/solr/collection1/conf"]
+RUN ["mkdir", "/opt/solr/server/solr/index"]
+ADD ./solr/core.properties /opt/solr/server/solr/collection1/core.properties
+ADD ./solr/schema.xml /opt/solr/server/solr/collection1/schema.xml
+ADD ./solr/solrconfig.xml /opt/solr/server/solr/collection1/conf/solrconfig.xml
+#RUN ["/opt/solr/bin/solr", "start"]
+#RUN ["/opt/solr/bin/solr", "create", "-c", "collection1"]
+WORKDIR /opt/solr
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["solr-foreground"]

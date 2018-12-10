@@ -1,21 +1,22 @@
 version: '3'
+# TODO rename hosts/containers with lcl prefix
 services:
 #  irods:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-irods
-#    container_name: irods
-#    hostname: irods
-#    volumes:
-#      - .:/hydroshare
-#    # the following two lines allow docker exec -it <container name> /bin/bash to attach to container
-#    stdin_open: true
-#    tty: true
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile-irods
+  #    container_name: irods
+  #    hostname: irods
+  #    volumes:
+  #      - .:/hydroshare
+  #    # the following two lines allow docker exec -it <container name> /bin/bash to attach to container
+  #    stdin_open: true
+  #    tty: true
   postgis:
     build:
       context: .
       dockerfile: Dockerfile-postgis
-    container_name: postgis1
+    container_name: postgis
     hostname: postgis
     ports:
       - "54322:5432"
@@ -24,17 +25,36 @@ services:
   redis:
     image: redis:2.8
     container_name: redis
+    hostname: redis
   solr:
-    image: solr:6.6
+    build:
+      context: .
+      dockerfile: Dockerfile-solr
     container_name: solr
-    volumes:
-      - .:/hydroshare
-    command: [sh, -c, /bin/bash /opt/solr/bin/solr -f]
+    hostname: solr
+    environment:
+      - SOLR_USER="solr"
+      - SOLR_UID="8983"
+      - SOLR_GROUP="solr"
+      - SOLR_GID="8983"
+    ports:
+      - "8983:8983"
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_ADMIN
+#    volumes:
+#      - ./.solrdata:/opt/solr/server/solr/collection1
+#    entrypoint:
+#      - docker-entrypoint.sh
+#      - solr-precreate
+#      - mycore
   hydroshare:
     build:
       context: .
       dockerfile: Dockerfile-hydroshare
     container_name: hydroshare
+    hostname: hydroshare
     cap_add:
       - SYS_ADMIN
     devices:
@@ -52,6 +72,7 @@ services:
       DJANGO_SETTINGS_MODULE: hydroshare.settings
       POSTGIS_HOST: postgis
       POSTGIS_PORT_5432_TCP_ADDR: postgis
+      SOLR_PORT_8983_TCP_ADDR: solr
       POSTGIS_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
